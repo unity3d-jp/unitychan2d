@@ -10,7 +10,7 @@
 
 ## Start シーン
 
-![image](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.10.12.png)
+![image](images/スクリーンショット 2014-06-12 17.10.12.png)
 
 ユニティちゃんは自由に動くことが出来ます。<br>
 左右ループとなっており、左に移動するとユニティちゃんが右から登場します。
@@ -25,7 +25,7 @@ Xボタンを押すとゲームを開始します。
 
 ## Loading シーン
 
-![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.14.02.png)
+![](images/スクリーンショット 2014-06-12 17.14.02.png)
 
 ロード画面です。数秒後、他のシーンへ移動します。
 
@@ -38,7 +38,7 @@ Xボタンを押すとゲームを開始します。
 
 ## World 1-1 シーン
 
-![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.18.37.png)
+![](images/スクリーンショット 2014-06-12 17.18.37.png)
 
 プレイできるシーンです。<br>
 右へ進んでいくとゴールへ向かいます。
@@ -53,7 +53,7 @@ Xボタンを押すとゲームを開始します。
 
 ## ○○を増やすには？
 
-![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.32.14.png)
+![](images/スクリーンショット 2014-06-12 17.32.14.png)
 
 ### ピンクのウニを増やすには？
 
@@ -78,7 +78,7 @@ Xボタンを押すとゲームを開始します。
 **DemoUnityChan2D**ゲームオブジェクトに**Demo.cs**がアタッチされています。<br>
 ボイスはインスペクター上で変更することが可能です。
 
-![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.33.22.png)
+![](images/スクリーンショット 2014-06-12 17.33.22.png)
 
 <div style="page-break-before: always;"></div>
 
@@ -87,13 +87,13 @@ Xボタンを押すとゲームを開始します。
 1. Loading 1-1とWorld 1-1 シーンを複製しましょう。そうすると自動的に名前が**Loading 1-2**と**World 1-2**となります。
 2. Buid Settings ウィンドウにシーンを追加します。
 	
-	![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.40.32.png)
+	![](images/スクリーンショット 2014-06-12 17.40.32.png)
 3. **World 1-1**シーンを開き、**Main Camera**ゲームオブジェクトにアタッチされている**CameraController.cs**の`Next Level`をStartから**Loading 1-2**へ変更します。
 
-	![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.43.42.png)
+	![](images/スクリーンショット 2014-06-12 17.43.42.png)
 4. **Loading 1-2**シーンを開き、**Loading Controller**ゲームオブジェクトにアタッチされている**LoadingController**の`Next Level`をIntro 1-1から**World 1-2**へ変更します。
 
-	![](/Users/keigo/repos/unitychan2d/Documents/Demoプロジェクトについて/images/スクリーンショット 2014-06-12 17.45.42.png)
+	![](images/スクリーンショット 2014-06-12 17.45.42.png)
 5. 以上でシーンの遷移は完了しました。**Loading 1-2**と**World 1-2**シーンを1-2用に変更していきましょう！
 6. 余裕があればIntroシーンも作成してみましょう。
 
