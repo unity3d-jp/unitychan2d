@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadingController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    [SceneName]
-    public string nextLevel;
-
-    IEnumerator Start()
+    public class LoadingController : MonoBehaviour
     {
-        yield return new WaitForSeconds(3);
+        [SceneName]
+        public string nextLevel;
 
-        Application.LoadLevel(nextLevel);
+        private IEnumerator Start()
+        {
+            yield return new WaitForSeconds(3);
+
+            Application.LoadLevel(nextLevel);
+        }
     }
 }

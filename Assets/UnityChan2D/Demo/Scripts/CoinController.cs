@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CoinController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    public AudioClip getCoin;
-    void OnTriggerEnter2D(Collider2D other)
+    public class CoinController : MonoBehaviour
     {
-        if (other.tag == "Player")
+        public AudioClip getCoin;
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            PointController.instance.AddCoin();
-            AudioSourceController.instance.PlayOneShot(getCoin);
-            Destroy(gameObject);
+            if (other.tag == "Player")
+            {
+                PointController.instance.AddCoin();
+                AudioSourceController.instance.PlayOneShot(getCoin);
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
-public class IntroCameraController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    public Transform target;
-
-    private Vector3 pos;
-
-    [SceneName]
-    public string nextLevel;
-
-    IEnumerator Start()
+    [RequireComponent(typeof(AudioSource))]
+    public class IntroCameraController : MonoBehaviour
     {
-        pos = transform.position;
+        public Transform target;
 
-        yield return new WaitForSeconds(audio.clip.length + 1);
+        private Vector3 pos;
 
-        Application.LoadLevel(nextLevel);
-    }
+        [SceneName]
+        public string nextLevel;
 
-    void Update()
-    {
-        float newPosition = Mathf.SmoothStep(pos.x, target.position.x, Time.timeSinceLevelLoad / audio.clip.length);
+        private IEnumerator Start()
+        {
+            pos = transform.position;
 
-        transform.position = new Vector3(newPosition, pos.y, pos.z);
+            yield return new WaitForSeconds(audio.clip.length + 1);
+
+            Application.LoadLevel(nextLevel);
+        }
+
+        private void Update()
+        {
+            float newPosition = Mathf.SmoothStep(pos.x, target.position.x, Time.timeSinceLevelLoad / audio.clip.length);
+
+            transform.position = new Vector3(newPosition, pos.y, pos.z);
+        }
     }
 }

@@ -1,42 +1,46 @@
 ﻿using UnityEngine;
 
-public class BlockController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    public LayerMask whatIsPlayer;
-
-    public GameObject brokenBlock;
-
-    public AudioClip hitClip;
-
-    public bool canBreak;
-
-    private BoxCollider2D m_boxCollider2D;
-
-    private void Awake()
+    public class BlockController : MonoBehaviour
     {
-        m_boxCollider2D = GetComponent<BoxCollider2D>();
-    }
+        public LayerMask whatIsPlayer;
 
-    private void OnCollisionEnter2D(Collision2D collision2D)
-    {
-        if (collision2D.gameObject.tag == "Player")
+        public GameObject brokenBlock;
+
+        public AudioClip hitClip;
+
+        public bool canBreak;
+
+        private BoxCollider2D m_boxCollider2D;
+
+        private void Awake()
         {
-            Vector2 pos = transform.position;
-            Vector2 groundCheck = new Vector2(pos.x, pos.y - transform.lossyScale.y);
-            Vector2 groundArea = new Vector2(m_boxCollider2D.size.x * transform.lossyScale.y * 0.45f, 0.05f);
-            var col2D = Physics2D.OverlapArea(groundCheck + groundArea, groundCheck - groundArea, whatIsPlayer);
+            m_boxCollider2D = GetComponent<BoxCollider2D>();
+        }
 
-            if (col2D)
+        private void OnCollisionEnter2D(Collision2D collision2D)
+        {
+            if (collision2D.gameObject.tag == "Player")
             {
-                if (canBreak)
+                Vector2 pos = transform.position;
+                Vector2 groundCheck = new Vector2(pos.x, pos.y - transform.lossyScale.y);
+                Vector2 groundArea = new Vector2(m_boxCollider2D.size.x * transform.lossyScale.y * 0.45f, 0.05f);
+                var col2D = Physics2D.OverlapArea(groundCheck + groundArea, groundCheck - groundArea, whatIsPlayer);
+
+                if (col2D)
                 {
-                    GameObject broken = (GameObject) Instantiate(brokenBlock, transform.position, transform.rotation);
-                    broken.transform.localScale = transform.lossyScale;
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    AudioSourceController.instance.PlayOneShot(hitClip);
+                    if (canBreak)
+                    {
+                        GameObject broken =
+                            (GameObject)Instantiate(brokenBlock, transform.position, transform.rotation);
+                        broken.transform.localScale = transform.lossyScale;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        AudioSourceController.instance.PlayOneShot(hitClip);
+                    }
                 }
             }
         }

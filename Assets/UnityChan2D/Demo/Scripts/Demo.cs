@@ -1,51 +1,54 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(UnityChan2DController), typeof(AudioSource))]
-public class Demo : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    [SerializeField]
-    private AudioClip damageVoice;
-
-    [SerializeField]
-    private AudioClip[] jumpVoices;
-
-    [SerializeField]
-    private AudioClip clearVoice;
-
-    [SerializeField]
-    private AudioClip timeOverVoice;
-
-    private AudioSource audioSource;
-
-    void Awake()
+    [RequireComponent(typeof(UnityChan2DController), typeof(AudioSource))]
+    public class Demo : MonoBehaviour
     {
-        audioSource = GetComponent<AudioSource>();
-    }
+        [SerializeField]
+        private AudioClip damageVoice;
 
-    void OnDamage()
-    {
-        PlayVoice(damageVoice);
-    }
+        [SerializeField]
+        private AudioClip[] jumpVoices;
 
-    void Jump()
-    {
-        int i = Random.Range(0, jumpVoices.Length);
-        PlayVoice(jumpVoices[i]);
-    }
+        [SerializeField]
+        private AudioClip clearVoice;
 
-    void Clear()
-    {
-        PlayVoice(clearVoice);
-    }
+        [SerializeField]
+        private AudioClip timeOverVoice;
 
-    void TimeOver()
-    {
-        PlayVoice(timeOverVoice);
-    }
+        private AudioSource audioSource;
 
-    void PlayVoice(AudioClip voice)
-    {
-        audioSource.Stop();
-        audioSource.PlayOneShot(voice);
+        private void Awake()
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        private void OnDamage()
+        {
+            PlayVoice(damageVoice);
+        }
+
+        private void Jump()
+        {
+            int i = Random.Range(0, jumpVoices.Length);
+            PlayVoice(jumpVoices[i]);
+        }
+
+        private void Clear()
+        {
+            PlayVoice(clearVoice);
+        }
+
+        private void TimeOver()
+        {
+            PlayVoice(timeOverVoice);
+        }
+
+        private void PlayVoice(AudioClip voice)
+        {
+            audioSource.Stop();
+            audioSource.PlayOneShot(voice);
+        }
     }
 }

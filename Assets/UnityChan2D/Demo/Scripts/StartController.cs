@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
-public class StartController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    [SceneName]
-    public string nextLevel;
-
-    [SerializeField]
-    private KeyCode enter = KeyCode.X;
-
-    void Update()
+    [RequireComponent(typeof(AudioSource))]
+    public class StartController : MonoBehaviour
     {
-        if (Input.GetKeyDown(enter))
-        {
-            StartCoroutine(LoadStage());
-        }
-    }
+        [SceneName]
+        public string nextLevel;
 
-    private IEnumerator LoadStage()
-    {
-        foreach (AudioSource audioS in FindObjectsOfType<AudioSource>())
+        [SerializeField]
+        private KeyCode enter = KeyCode.X;
+
+        private void Update()
         {
-            audioS.volume = 0.2f;
+            if (Input.GetKeyDown(enter))
+            {
+                StartCoroutine(LoadStage());
+            }
         }
 
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 1;
+        private IEnumerator LoadStage()
+        {
+            foreach (AudioSource audioS in FindObjectsOfType<AudioSource>())
+            {
+                audioS.volume = 0.2f;
+            }
 
-        audioSource.Play();
-        yield return new WaitForSeconds(audioSource.clip.length + 0.5f);
-        Application.LoadLevel(nextLevel);
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.volume = 1;
+
+            audioSource.Play();
+            yield return new WaitForSeconds(audioSource.clip.length + 0.5f);
+            Application.LoadLevel(nextLevel);
+        }
     }
 }

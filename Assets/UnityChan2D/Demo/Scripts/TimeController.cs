@@ -1,46 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TimeController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    public int time;
-    [SceneName]
-    public string nextLevel;
-
-    public GUIText timer;
-
-   
-
-    void Update()
+    public class TimeController : MonoBehaviour
     {
-        int remainingTime = time - Mathf.FloorToInt(Time.timeSinceLevelLoad * 2.5f);
+        public int time;
+        [SceneName]
+        public string nextLevel;
 
-        if (0 <= remainingTime)
+        public GUIText timer;
+
+
+
+        private void Update()
         {
-            timer.text = remainingTime.ToString("000");
-        }
-        else
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player)
+            int remainingTime = time - Mathf.FloorToInt(Time.timeSinceLevelLoad * 2.5f);
+
+            if (0 <= remainingTime)
             {
-                StartCoroutine(LoadNextLevel());
-                enabled = false;
+                timer.text = remainingTime.ToString("000");
+            }
+            else
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player)
+                {
+                    StartCoroutine(LoadNextLevel());
+                    enabled = false;
+                }
             }
         }
-    }
 
-    private IEnumerator LoadNextLevel()
-    {
-        var player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player)
+        private IEnumerator LoadNextLevel()
         {
-            player.SendMessage("TimeOver", SendMessageOptions.DontRequireReceiver);
+            var player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player)
+            {
+                player.SendMessage("TimeOver", SendMessageOptions.DontRequireReceiver);
+            }
+
+            yield return new WaitForSeconds(3);
+
+            Application.LoadLevel(nextLevel);
         }
-
-        yield return new WaitForSeconds(3);
-
-        Application.LoadLevel(nextLevel);
     }
 }

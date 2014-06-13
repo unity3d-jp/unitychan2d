@@ -1,32 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class BrokenBlockController : MonoBehaviour
+
+namespace UnityChan2D.Demo
 {
-    public AudioClip breakClip;
-
-    public Vector2 force = new Vector2(250, 1000);
-
-    private Rigidbody2D[] rigidbody2Ds;
-    private Transform[] transforms;
-    void Awake()
+    public class BrokenBlockController : MonoBehaviour
     {
-        rigidbody2Ds = GetComponentsInChildren<Rigidbody2D>();
-    }
+        public AudioClip breakClip;
 
-    void Start()
-    {
+        public Vector2 force = new Vector2(250, 1000);
 
-        IEnumerable<IGrouping<float, Rigidbody2D>> groupBy = rigidbody2Ds.GroupBy(r => r.transform.localPosition.y);
+        private Rigidbody2D[] rigidbody2Ds;
+        private Transform[] transforms;
 
-        foreach (IGrouping<float, Rigidbody2D> grouping in groupBy)
+        private void Awake()
         {
-            foreach (var r in grouping)
-            {
-                r.AddForce(new Vector2(Mathf.Sign(r.transform.localPosition.x) * force.x, force.y + (100 * grouping.Key)));
-            }
+            rigidbody2Ds = GetComponentsInChildren<Rigidbody2D>();
         }
-        AudioSourceController.instance.PlayOneShot(breakClip);
-        Destroy(gameObject, 3);
+
+        private void Start()
+        {
+
+            IEnumerable<IGrouping<float, Rigidbody2D>> groupBy = rigidbody2Ds.GroupBy(r => r.transform.localPosition.y);
+
+            foreach (IGrouping<float, Rigidbody2D> grouping in groupBy)
+            {
+                foreach (var r in grouping)
+                {
+                    r.AddForce(new Vector2(Mathf.Sign(r.transform.localPosition.x) * force.x, force.y + (100 * grouping.Key)));
+                }
+            }
+            AudioSourceController.instance.PlayOneShot(breakClip);
+            Destroy(gameObject, 3);
+        }
     }
 }

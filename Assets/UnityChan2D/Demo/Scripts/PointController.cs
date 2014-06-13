@@ -1,29 +1,32 @@
 ﻿using System;
 using UnityEngine;
 
-public class PointController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-
-    public GUIText total;
-    public GUIText coin;
-
-    private static PointController m_instance;
-
-    public static PointController instance
+    public class PointController : MonoBehaviour
     {
-        get
+
+        public GUIText total;
+        public GUIText coin;
+
+        private static PointController m_instance;
+
+        public static PointController instance
         {
-            if (m_instance == false)
+            get
             {
-                m_instance = FindObjectOfType<PointController>();
+                if (m_instance == false)
+                {
+                    m_instance = FindObjectOfType<PointController>();
+                }
+                return m_instance;
             }
-            return m_instance;
         }
-    }
 
-    public void AddCoin()
-    {
-        coin.text = (Convert.ToInt32(coin.text) + 1).ToString("00");
-        total.text = (Convert.ToInt32(total.text) + 100).ToString("0000000");
+        public void AddCoin()
+        {
+            coin.text = (Convert.ToInt32(coin.text) + 1).ToString("00");
+            total.text = (Convert.ToInt32(total.text) + 100).ToString("0000000");
+        }
     }
 }

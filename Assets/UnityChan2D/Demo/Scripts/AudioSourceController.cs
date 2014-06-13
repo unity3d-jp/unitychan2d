@@ -1,29 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioSourceController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    private static AudioSourceController m_instance;
-    public static AudioSourceController instance
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioSourceController : MonoBehaviour
     {
-        get
-        {
-            if (m_instance == null)
-            {
-                m_instance = FindObjectOfType<AudioSourceController>();
+        private static AudioSourceController m_instance;
 
+        public static AudioSourceController instance
+        {
+            get
+            {
                 if (m_instance == null)
                 {
-                    m_instance = new GameObject("AudioSourceController").AddComponent<AudioSourceController>();
-                }
-            }
-            return m_instance;
-        }
-    }
+                    m_instance = FindObjectOfType<AudioSourceController>();
 
-    public void PlayOneShot(AudioClip clip)
-    {
-        audio.PlayOneShot(clip);
+                    if (m_instance == null)
+                    {
+                        m_instance = new GameObject("AudioSourceController").AddComponent<AudioSourceController>();
+                    }
+                }
+                return m_instance;
+            }
+        }
+
+        public void PlayOneShot(AudioClip clip)
+        {
+            audio.PlayOneShot(clip);
+        }
     }
 }

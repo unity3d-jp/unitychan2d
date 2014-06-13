@@ -4,81 +4,89 @@ using UnityEditor;
 using System.Linq;
 using System.Collections.Generic;
 #endif
-public class SceneNameAttribute : PropertyAttribute
+
+namespace UnityChan2D.Demo
 {
-    public int selectedValue = 0;
-    public bool enableOnly = true;
-    public SceneNameAttribute(bool enableOnly = true)
+    public class SceneNameAttribute : PropertyAttribute
     {
-        this.enableOnly = enableOnly;
+        public int selectedValue = 0;
+        public bool enableOnly = true;
+
+        public SceneNameAttribute(bool enableOnly = true)
+        {
+            this.enableOnly = enableOnly;
+        }
     }
-}
 
 
 #if UNITY_EDITOR
 
-[CustomPropertyDrawer(typeof(SceneNameAttribute))]
-public class SceneNameDrawer : PropertyDrawer
-{
-    private SceneNameAttribute sceneNameAttribute
+    [CustomPropertyDrawer(typeof(SceneNameAttribute))]
+    public class SceneNameDrawer : PropertyDrawer
     {
-        get
+        private SceneNameAttribute sceneNameAttribute
         {
-            return (SceneNameAttribute)attribute;
-        }
-    }
-
-
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        string[] sceneNames = GetEnabledSceneNames();
-
-        if (sceneNames.Length == 0)
-        {
-            EditorGUI.LabelField(position, ObjectNames.NicifyVariableName(property.name), "Scene is Empty");
-            return;
+            get { return (SceneNameAttribute)attribute; }
         }
 
-        var sceneNumbers = new int[sceneNames.Length];
 
-        SetSceneNambers(sceneNumbers, sceneNames);
-
-        if (!string.IsNullOrEmpty(property.stringValue))
-            sceneNameAttribute.selectedValue = GetIndex(sceneNames, property.stringValue);
-
-        sceneNameAttribute.selectedValue = EditorGUI.IntPopup(position, label.text, sceneNameAttribute.selectedValue, sceneNames, sceneNumbers);
-
-        property.stringValue = sceneNames[sceneNameAttribute.selectedValue];
-    }
-
-    string[] GetEnabledSceneNames()
-    {
-        var scenes = (sceneNameAttribute.enableOnly ? EditorBuildSettings.scenes.Where(scene => scene.enabled) : EditorBuildSettings.scenes).ToList();
-        var sceneNames = new HashSet<string>();
-        scenes.ForEach(scene => sceneNames.Add(scene.path.Substring(scene.path.LastIndexOf("/") + 1).Replace(".unity", string.Empty)));
-        return sceneNames.ToArray();
-    }
-
-    void SetSceneNambers(int[] sceneNumbers, string[] sceneNames)
-    {
-        for (var i = 0; i < sceneNames.Length; i++)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            sceneNumbers[i] = i;
-        }
-    }
+            string[] sceneNames = GetEnabledSceneNames();
 
-    int GetIndex(string[] sceneNames, string sceneName)
-    {
-        var result = 0;
-        for (var i = 0; i < sceneNames.Length; i++)
-        {
-            if (sceneName == sceneNames[i])
+            if (sceneNames.Length == 0)
             {
-                result = i;
-                break;
+                EditorGUI.LabelField(position, ObjectNames.NicifyVariableName(property.name), "Scene is Empty");
+                return;
+            }
+
+            var sceneNumbers = new int[sceneNames.Length];
+
+            SetSceneNambers(sceneNumbers, sceneNames);
+
+            if (!string.IsNullOrEmpty(property.stringValue))
+                sceneNameAttribute.selectedValue = GetIndex(sceneNames, property.stringValue);
+
+            sceneNameAttribute.selectedValue = EditorGUI.IntPopup(position, label.text, sceneNameAttribute.selectedValue,
+                sceneNames, sceneNumbers);
+
+            property.stringValue = sceneNames[sceneNameAttribute.selectedValue];
+        }
+
+        private string[] GetEnabledSceneNames()
+        {
+            var scenes =
+                (sceneNameAttribute.enableOnly
+                    ? EditorBuildSettings.scenes.Where(scene => scene.enabled)
+                    : EditorBuildSettings.scenes).ToList();
+            var sceneNames = new HashSet<string>();
+            scenes.ForEach(
+                scene =>
+                    sceneNames.Add(scene.path.Substring(scene.path.LastIndexOf("/") + 1).Replace(".unity", string.Empty)));
+            return sceneNames.ToArray();
+        }
+
+        private void SetSceneNambers(int[] sceneNumbers, string[] sceneNames)
+        {
+            for (var i = 0; i < sceneNames.Length; i++)
+            {
+                sceneNumbers[i] = i;
             }
         }
-        return result;
+
+        private int GetIndex(string[] sceneNames, string sceneName)
+        {
+            var result = 0;
+            for (var i = 0; i < sceneNames.Length; i++)
+            {
+                if (sceneName == sceneNames[i])
+                {
+                    result = i;
+                    break;
+                }
+            }
+            return result;
+        }
     }
-}
 #endif
+}

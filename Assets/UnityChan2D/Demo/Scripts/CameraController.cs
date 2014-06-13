@@ -2,55 +2,58 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
-public class CameraController : MonoBehaviour
+namespace UnityChan2D.Demo
 {
-    public Transform target;
-    public Transform stopPosition;
-
-    [SceneName]
-    public string nextLevel;
-
-    private Camera m_camera;
-
-    void Awake()
+    [RequireComponent(typeof(Camera))]
+    public class CameraController : MonoBehaviour
     {
-        m_camera = GetComponent<Camera>();
-    }
+        public Transform target;
+        public Transform stopPosition;
 
-    void LateUpdate()
-    {
-        var right = m_camera.ViewportToWorldPoint(Vector2.right);
-        var center = m_camera.ViewportToWorldPoint(Vector2.one * 0.5f);
+        [SceneName]
+        public string nextLevel;
 
-        if (center.x < target.position.x)
+        private Camera m_camera;
+
+        private void Awake()
         {
-            var pos = m_camera.transform.position;
+            m_camera = GetComponent<Camera>();
+        }
 
-            if (Math.Abs(pos.x - target.position.x) >= 0.0000001f)
+        private void LateUpdate()
+        {
+            var right = m_camera.ViewportToWorldPoint(Vector2.right);
+            var center = m_camera.ViewportToWorldPoint(Vector2.one * 0.5f);
+
+            if (center.x < target.position.x)
             {
-                m_camera.transform.position = new Vector3(target.position.x, pos.y, pos.z);
+                var pos = m_camera.transform.position;
+
+                if (Math.Abs(pos.x - target.position.x) >= 0.0000001f)
+                {
+                    m_camera.transform.position = new Vector3(target.position.x, pos.y, pos.z);
+                }
+            }
+
+            if (stopPosition.position.x - right.x < 0)
+            {
+                StartCoroutine(INTERNAL_Clear());
+                enabled = false;
             }
         }
 
-        if (stopPosition.position.x - right.x < 0)
+        private IEnumerator INTERNAL_Clear()
         {
-            StartCoroutine(INTERNAL_Clear());
-            enabled = false;
+            var player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player)
+            {
+                player.SendMessage("Clear", SendMessageOptions.DontRequireReceiver);
+            }
+
+            yield return new WaitForSeconds(3);
+
+            Application.LoadLevel(nextLevel);
         }
-    }
-
-    private IEnumerator INTERNAL_Clear()
-    {
-        var player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player)
-        {
-            player.SendMessage("Clear", SendMessageOptions.DontRequireReceiver);
-        }
-
-        yield return new WaitForSeconds(3);
-
-        Application.LoadLevel(nextLevel);
     }
 }
